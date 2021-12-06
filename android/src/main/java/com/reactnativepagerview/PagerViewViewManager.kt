@@ -148,7 +148,9 @@ class PagerViewViewManager : ViewGroupManager<ViewPager2>() {
       "setPageWithoutAnimation",
       COMMAND_SET_PAGE_WITHOUT_ANIMATION,
       "setScrollEnabled",
-      COMMAND_SET_SCROLL_ENABLED)
+      COMMAND_SET_SCROLL_ENABLED,
+      "setScrollLocked",
+      COMMAND_SET_SCROLL_LOCKED)
   }
 
   override fun receiveCommand(root: ViewPager2, commandId: Int, args: ReadableArray?) {
@@ -169,6 +171,10 @@ class PagerViewViewManager : ViewGroupManager<ViewPager2>() {
       }
       COMMAND_SET_SCROLL_ENABLED -> {
         root.isUserInputEnabled = args!!.getBoolean(0)
+      }
+      COMMAND_SET_SCROLL_LOCKED -> {
+        // TODO Update
+        //root.isUserInputEnabled = args!!.getBoolean(0)
       }
       else -> throw IllegalArgumentException(String.format(
         "Unsupported command %d received by %s.",
@@ -217,5 +223,6 @@ class PagerViewViewManager : ViewGroupManager<ViewPager2>() {
     private const val COMMAND_SET_PAGE = 1
     private const val COMMAND_SET_PAGE_WITHOUT_ANIMATION = 2
     private const val COMMAND_SET_SCROLL_ENABLED = 3
+    private const val COMMAND_SET_SCROLL_LOCKED = 4
   }
 }

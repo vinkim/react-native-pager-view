@@ -54,6 +54,18 @@ RCT_EXPORT_METHOD(setScrollEnabled:(nonnull NSNumber *)reactTag
     }];
 }
 
+RCT_EXPORT_METHOD(setScrollLocked:(nonnull NSNumber *)reactTag
+					 scrollLocked:(BOOL)scrollLocked) {
+	[self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+		ReactNativePageView *view = (ReactNativePageView *)viewRegistry[reactTag];
+		if (!view || ![view isKindOfClass:[ReactNativePageView class]]) {
+			RCTLogError(@"Cannot find ReactNativePageView with tag #%@", reactTag);
+			return;
+		}
+		[view setScrollLocked:scrollLocked];
+	}];
+}
+
 - (UIView *)view {
     return [[ReactNativePageView alloc] init];
 }

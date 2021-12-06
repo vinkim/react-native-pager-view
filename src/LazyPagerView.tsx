@@ -186,7 +186,7 @@ class LazyPagerViewImpl<ItemT> extends React.Component<
   setScrollLocked(scrollLocked: boolean) {
     UIManager.dispatchViewManagerCommand(
       findNodeHandle(this),
-      getViewManagerConfig().Commands.scrollLocked,
+      getViewManagerConfig().Commands.setScrollLocked,
       [scrollLocked]
     );
   }

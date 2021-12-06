@@ -8,5 +8,6 @@ export declare class LazyPagerView<ItemT> extends React.PureComponent<LazyPagerV
     setPage(page: number): void;
     setPageWithoutAnimation(page: number): void;
     setScrollEnabled(scrollEnabled: boolean): void;
+    setScrollLocked(scrollLocked: boolean): void;
     render(): JSX.Element;
 }
