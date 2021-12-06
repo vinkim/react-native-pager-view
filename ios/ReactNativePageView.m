@@ -19,11 +19,15 @@
 
 @end
 
-
 @implementation ReactNativePageView
 
 - (instancetype)init {
     if (self = [super init]) {
+        _velocityForSwipe = 250; // Tweak value to find the best fitted value
+		_distanceThreshold = 4.0;
+		_isScrollLocked = NO;
+        _panGesture = [[UIPanGestureRecognizer alloc] init];
+
         _controllerCache = [NSMapTable weakToWeakObjectsMapTable];
         _currentPage = 0;
         _currentReactTag = nil;
@@ -34,6 +38,7 @@
         _scrollEnabled = YES;
         _showPageIndicator = NO;
         _transitionStyle = UIPageViewControllerTransitionStyleScroll;
+
         [self embed];
         return self;
     } else {
@@ -74,6 +79,38 @@
     }
 }
 
+- (void)setScrollLocked:(BOOL)scrollLocked {
+	_isScrollLocked = scrollLocked;
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+	// Tweakable
+	if( gestureRecognizer == _panGesture ) {
+		CGPoint velocity = [_panGesture velocityInView: _scrollView ];
+		CGPoint distance = [_panGesture translationInView: _scrollView ];
+		CGFloat distanceX = fabs( distance.x );
+		CGFloat distanceY = fabs( distance.y );
+		if( !_isScrollLocked &&
+			distanceY > distanceX &&
+		  (( distanceY >= _distanceThreshold ) ||
+		  ( velocity.y <= -_velocityForSwipe || velocity.y >= _velocityForSwipe ))) {
+			//NSLog(@"ENABLING! -> x: %f, y: %f, velo: x: %f, y: %f", distanceX, distanceY, velocity.x, velocity.y );
+			_scrollView.scrollEnabled = true;
+			return true;
+		}
+
+		//NSLog(@"DISABLING -> x: %f, y: %f, velo: x: %f, y: %f", distanceX, distanceY, velocity.x, velocity.y );
+
+		_scrollView.scrollEnabled = false;
+		return false;
+	}
+	return false;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+	return YES;
+}
+
 - (void)embed {
     if (_reactPageViewController) {
         // Need to reinitialize.
@@ -96,6 +133,16 @@
             break;
         }
     }
+
+    if(_panGesture == nil) {
+        _panGesture = [[UIPanGestureRecognizer alloc] init];
+        _panGesture.maximumNumberOfTouches = 1;
+        _panGesture.delegate = self;
+        _scrollView.scrollEnabled = false;
+    }
+
+    [_scrollView removeGestureRecognizer: _panGesture];
+	[_scrollView addGestureRecognizer: _panGesture];
 
     [self attachPageIndicator];
 }

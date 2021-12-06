@@ -47,6 +47,10 @@ export class LazyPagerView<ItemT>
     this.pagerImplRef.current?.setScrollEnabled(scrollEnabled);
   }
 
+  setScrollLocked(scrollLocked: boolean) {
+    this.pagerImplRef.current?.setScrollLocked(scrollLocked);
+  }
+
   render() {
     const { style, ...implProps } = this.props;
 
