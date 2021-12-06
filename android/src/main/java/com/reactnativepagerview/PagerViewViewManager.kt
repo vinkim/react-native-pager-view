@@ -20,6 +20,7 @@ import com.reactnativepagerview.event.PageSelectedEvent
 
 class PagerViewViewManager : ViewGroupManager<ViewPager2>() {
   private lateinit var eventDispatcher: EventDispatcher
+  private var isLocked = false
 
   override fun getName(): String {
     return REACT_CLASS
@@ -173,8 +174,7 @@ class PagerViewViewManager : ViewGroupManager<ViewPager2>() {
         root.isUserInputEnabled = args!!.getBoolean(0)
       }
       COMMAND_SET_SCROLL_LOCKED -> {
-        // TODO Update
-        //root.isUserInputEnabled = args!!.getBoolean(0)
+        isLocked = args!!.getBoolean(0);
       }
       else -> throw IllegalArgumentException(String.format(
         "Unsupported command %d received by %s.",
