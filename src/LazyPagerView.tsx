@@ -183,6 +183,14 @@ class LazyPagerViewImpl<ItemT> extends React.Component<
     );
   }
 
+  setScrollLocked(scrollLocked: boolean) {
+    UIManager.dispatchViewManagerCommand(
+      findNodeHandle(this),
+      getViewManagerConfig().Commands.scrollLocked,
+      [scrollLocked]
+    );
+  }
+
   /**
    * Compute desired render window size.
    *
