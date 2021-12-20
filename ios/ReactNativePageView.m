@@ -7,7 +7,7 @@
 #import "RCTOnPageScrollStateChanged.h"
 #import "RCTOnPageSelected.h"
 
-@interface ReactNativePageView () <UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate>
+@interface ReactNativePageView () <UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 @property(nonatomic, strong) NSMapTable<UIView *, UIViewController *> *controllerCache;
 @property NSInteger currentPage;
@@ -27,10 +27,9 @@
 
 - (instancetype)init {
 	if (self = [super init]) {
-		_velocityForSwipe = 150; // Tweak value to find the best fitted value
+		_velocityForSwipe = 250; // Tweak value to find the best fitted value
 		_distanceThreshold = 4.0;
 		_isScrollLocked = NO;
-		_panGesture = [[UIPanGestureRecognizer alloc] init];
 
 		_controllerCache = [NSMapTable weakToWeakObjectsMapTable];
 		_currentPage = 0;
