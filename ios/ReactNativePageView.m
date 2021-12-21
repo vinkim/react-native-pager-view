@@ -20,6 +20,7 @@
 @property CGFloat distanceThreshold;
 @property BOOL isScrollLocked;
 @property(nonatomic, strong) UIPanGestureRecognizer* panGesture;
+@property NSArray<NSNumber *> *allowedTouchTypes;
 
 @end
 
@@ -85,33 +86,34 @@
 - (void)setScrollLocked:(BOOL)scrollLocked {
 	_isScrollLocked = scrollLocked;
 }
-
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-	// Tweakable
+	// tweak more
 	if( gestureRecognizer == _panGesture ) {
-		CGPoint velocity = [_panGesture velocityInView: _scrollView ];
 		CGPoint distance = [_panGesture translationInView: _scrollView ];
+		CGPoint velocity = [_panGesture velocityInView: _scrollView ];
 		CGFloat distanceX = fabs( distance.x );
 		CGFloat distanceY = fabs( distance.y );
-		if( !_isScrollLocked &&
-			distanceY > distanceX &&
-		  (( distanceY >= _distanceThreshold ) ||
-		  ( velocity.y <= -_velocityForSwipe || velocity.y >= _velocityForSwipe ))) {
-			//NSLog(@"ENABLING! -> x: %f, y: %f, velo: x: %f, y: %f", distanceX, distanceY, velocity.x, velocity.y );
-			_scrollView.scrollEnabled = true;
-			return false;
+		CGFloat velocityX = fabs( velocity.x );
+		CGFloat velocityY = fabs( velocity.y );
+		NSLog(@"Distance x: %f, y: %f - velox: %f, veloy: %f", distanceX, distanceY, velocityX, velocityY);
+		if(distanceX > 0 || velocityX > velocityY) {
+			return YES;
 		}
-
-		//NSLog(@"DISABLING -> x: %f, y: %f, velo: x: %f, y: %f", distanceX, distanceY, velocity.x, velocity.y );
-
-		_scrollView.scrollEnabled = false;
-		return false;
+		return NO;
 	}
 	return false;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
 	return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+
+	if( gestureRecognizer == _panGesture && otherGestureRecognizer == _scrollView.panGestureRecognizer ) {
+		return YES;
+	}
+	return NO;
 }
 
 - (void)embed {
@@ -136,16 +138,42 @@
 			break;
 		}
 	}
-
-	_panGesture = [[UIPanGestureRecognizer alloc] init];
-	_panGesture.maximumNumberOfTouches = 1;
+	_panGesture = [[UIPanGestureRecognizer alloc] init]; // initWithTarget:self action:@selector(handlePan:)];
 	_panGesture.delegate = self;
-	_scrollView.scrollEnabled = false;
+	_panGesture.cancelsTouchesInView = NO;
+	_scrollView.scrollEnabled = YES;
+	_scrollView.panGestureRecognizer.cancelsTouchesInView = NO;
+	_scrollView.canCancelContentTouches = NO;
+	_scrollView.panGestureRecognizer.delaysTouchesBegan = YES;
 
-	[_scrollView removeGestureRecognizer: _panGesture];
-	[_scrollView addGestureRecognizer: _panGesture];
+	[self removeGestureRecognizer: _panGesture];
+	[self addGestureRecognizer: _panGesture];
 
 	[self attachPageIndicator];
+}
+
+- (void)handlePan:(UIPanGestureRecognizer *)panGesture
+{
+	if(panGesture.state == UIGestureRecognizerStateBegan) {
+
+		CGPoint velocity = [_panGesture velocityInView: _scrollView ];
+		double velox = fabs( velocity.x );
+		double veloy = fabs( velocity.y );
+		if( veloy < -200.0 || veloy > 200.0 ){
+			if( veloy > velox ) {
+				// activate
+				_scrollView.panGestureRecognizer.enabled = true;
+				NSLog(@"Vertical");
+			} else {
+				NSLog(@"Horizontal");
+				_scrollView.panGestureRecognizer.enabled = false;
+			}
+		} else {
+			// deactivate
+			NSLog(@"Horizontal");
+			_scrollView.panGestureRecognizer.enabled = false;
+		}
+	}
 }
 
 - (void)attachPageIndicator {
@@ -317,6 +345,7 @@
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+
 	if (_onPageScrollStateChanged) {
 		_onPageScrollStateChanged(@{
 			@"pageScrollState": @"dragging"
