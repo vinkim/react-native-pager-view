@@ -100,14 +100,14 @@
 			_shouldDoScrolling = NO;
 			return YES;
 		}
-		_shouldDoScrolling = YES;
+		_shouldDoScrolling = YES;
 		return NO;
 	}
 	return _shouldDoScrolling;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-	return YES;
+	return _shouldDoScrolling;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -140,7 +140,10 @@
 			break;
 		}
 	}
-	_panGesture = [[UIPanGestureRecognizer alloc] init];
+	if(_panGesture == nil) {
+		_panGesture = [[UIPanGestureRecognizer alloc] init];
+		// Uncomment to debug - [_panGesture addTarget:self action:@selector(handlePan:)];
+	}
 	_panGesture.delegate = self;
 	_panGesture.cancelsTouchesInView = NO;
 	_scrollView.scrollEnabled = YES;
@@ -155,25 +158,26 @@
 
 - (void)handlePan:(UIPanGestureRecognizer *)panGesture
 {
-	if(panGesture.state == UIGestureRecognizerStateBegan) {
+	switch(panGesture.state) {
+		case UIGestureRecognizerStatePossible:
+			NSLog(@"UIGestureRecognizerStatePossible");
+			break;
+		case UIGestureRecognizerStateBegan:
+			NSLog(@"UIGestureRecognizerStateBegan");
+			break;
+		case UIGestureRecognizerStateChanged:
+			NSLog(@"UIGestureRecognizerStateChanged");
+			break;
+		case UIGestureRecognizerStateEnded:
+			NSLog(@"UIGestureRecognizerStateEnded");
+			break;
+		case UIGestureRecognizerStateCancelled:
+			NSLog(@"UIGestureRecognizerStateCancelled");
+			break;
+		case UIGestureRecognizerStateFailed:
+			NSLog(@"UIGestureRecognizerStateFailed");
+			break;
 
-		CGPoint velocity = [_panGesture velocityInView: _scrollView ];
-		double velox = fabs( velocity.x );
-		double veloy = fabs( velocity.y );
-		if( veloy < -200.0 || veloy > 200.0 ){
-			if( veloy > velox ) {
-				// activate
-				_scrollView.panGestureRecognizer.enabled = true;
-				NSLog(@"Vertical");
-			} else {
-				NSLog(@"Horizontal");
-				_scrollView.panGestureRecognizer.enabled = false;
-			}
-		} else {
-			// deactivate
-			NSLog(@"Horizontal");
-			_scrollView.panGestureRecognizer.enabled = false;
-		}
 	}
 }
 
