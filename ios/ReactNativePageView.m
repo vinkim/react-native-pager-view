@@ -20,7 +20,7 @@
 @property CGFloat distanceThreshold;
 @property BOOL isScrollLocked;
 @property(nonatomic, strong) UIPanGestureRecognizer* panGesture;
-@property NSArray<NSNumber *> *allowedTouchTypes;
+@property BOOL shouldDoScrolling;
 
 @end
 
@@ -96,12 +96,14 @@
 		CGFloat velocityX = fabs( velocity.x );
 		CGFloat velocityY = fabs( velocity.y );
 		NSLog(@"Distance x: %f, y: %f - velox: %f, veloy: %f", distanceX, distanceY, velocityX, velocityY);
-		if(distanceX > 0 || velocityX > velocityY) {
+		if(distanceX > 0 || velocityX > velocityY || _panGesture.numberOfTouches == 2) {
+			_shouldDoScrolling = NO;
 			return YES;
 		}
+		_shouldDoScrolling = YES;
 		return NO;
 	}
-	return false;
+	return _shouldDoScrolling;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -138,13 +140,12 @@
 			break;
 		}
 	}
-	_panGesture = [[UIPanGestureRecognizer alloc] init]; // initWithTarget:self action:@selector(handlePan:)];
+	_panGesture = [[UIPanGestureRecognizer alloc] init];
 	_panGesture.delegate = self;
 	_panGesture.cancelsTouchesInView = NO;
 	_scrollView.scrollEnabled = YES;
 	_scrollView.panGestureRecognizer.cancelsTouchesInView = NO;
 	_scrollView.canCancelContentTouches = NO;
-	_scrollView.panGestureRecognizer.delaysTouchesBegan = YES;
 
 	[self removeGestureRecognizer: _panGesture];
 	[self addGestureRecognizer: _panGesture];
