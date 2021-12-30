@@ -4,7 +4,7 @@
 
 #pragma mark - RTC
 
-RCT_EXPORT_MODULE(RNCViewPager)
+RCT_EXPORT_MODULE(RNCustomViewPager)
 
 RCT_EXPORT_VIEW_PROPERTY(count, NSInteger)
 RCT_EXPORT_VIEW_PROPERTY(offset, NSInteger)

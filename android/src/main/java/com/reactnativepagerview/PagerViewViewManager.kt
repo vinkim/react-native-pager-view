@@ -219,7 +219,7 @@ class PagerViewViewManager : ViewGroupManager<ViewPager2>() {
   }
 
   companion object {
-    private const val REACT_CLASS = "RNCViewPager"
+    private const val REACT_CLASS = "RNCustomViewPager"
     private const val COMMAND_SET_PAGE = 1
     private const val COMMAND_SET_PAGE_WITHOUT_ANIMATION = 2
     private const val COMMAND_SET_SCROLL_ENABLED = 3
