@@ -1,7 +1,7 @@
-package com.reactnativepagerview
+package com.reactnativepagerviewcustom
 
 import androidx.recyclerview.widget.DiffUtil
-import com.reactnativepagerview.FragmentAdapter.Companion.UNRENDERED_ID_OFFSET
+import com.reactnativepagerviewcustom.FragmentAdapter.Companion.UNRENDERED_ID_OFFSET
 
 class PagerDiffCallback(private val oldList: List<Long>, private val adapter: FragmentAdapter) : DiffUtil.Callback() {
   override fun getOldListSize() = oldList.size

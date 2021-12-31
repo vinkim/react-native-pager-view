@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.reactnativepagerview">
+    package="com.example.reactnativepagerviewcustom">
 
     <application
         android:name=".MainApplication"

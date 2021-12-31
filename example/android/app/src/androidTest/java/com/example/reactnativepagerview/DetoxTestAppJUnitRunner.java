@@ -1,4 +1,4 @@
-package com.example.reactnativepagerview;
+package com.example.reactnativepagerviewcustom;
 
 import android.os.Bundle;
 

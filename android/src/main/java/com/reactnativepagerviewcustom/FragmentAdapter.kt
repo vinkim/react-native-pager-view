@@ -1,4 +1,4 @@
-package com.reactnativepagerview
+package com.reactnativepagerviewcustom
 
 import android.view.View
 import androidx.fragment.app.Fragment

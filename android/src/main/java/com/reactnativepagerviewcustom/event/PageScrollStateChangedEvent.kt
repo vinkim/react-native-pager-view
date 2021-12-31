@@ -1,4 +1,4 @@
-package com.reactnativepagerview.event
+package com.reactnativepagerviewcustom.event
 
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.WritableMap

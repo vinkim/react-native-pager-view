@@ -80,7 +80,7 @@ dependencies {
 
 On top, where imports are:
 
-Add `import com.reactnativepagerview.PagerViewPackage;`
+Add `import com.reactnativepagerviewcustom.PagerViewPackage;`
 
 Add the `PagerViewPackage` class to your list of exported packages.
 

@@ -93,7 +93,7 @@ jobs:
       - rn/setup_macos_executor:
           node_version: '12.10.0'
       - rn/android_emulator_start:
-          logcat_grep: 'com.example.reactnativepagerview'
+          logcat_grep: 'com.example.reactnativepagerviewcustom'
           platform_version: 'android-29'
       - run:
           command: yarn --cwd example detox:android:build:release

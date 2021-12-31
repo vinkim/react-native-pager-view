@@ -1,4 +1,4 @@
-package com.example.reactnativepagerview;
+package com.example.reactnativepagerviewcustom;
 
 import com.wix.detox.Detox;
 import com.wix.detox.config.DetoxConfig;

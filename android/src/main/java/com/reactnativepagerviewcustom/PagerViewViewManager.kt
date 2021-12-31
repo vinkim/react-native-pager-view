@@ -1,4 +1,4 @@
-package com.reactnativepagerview
+package com.reactnativepagerviewcustom
 
 import android.view.View
 import androidx.fragment.app.FragmentActivity
@@ -13,9 +13,9 @@ import com.facebook.react.uimanager.UIManagerModule
 import com.facebook.react.uimanager.ViewGroupManager
 import com.facebook.react.uimanager.annotations.ReactProp
 import com.facebook.react.uimanager.events.EventDispatcher
-import com.reactnativepagerview.event.PageScrollEvent
-import com.reactnativepagerview.event.PageScrollStateChangedEvent
-import com.reactnativepagerview.event.PageSelectedEvent
+import com.reactnativepagerviewcustom.event.PageScrollEvent
+import com.reactnativepagerviewcustom.event.PageScrollStateChangedEvent
+import com.reactnativepagerviewcustom.event.PageSelectedEvent
 
 
 class PagerViewViewManager : ViewGroupManager<ViewPager2>() {
