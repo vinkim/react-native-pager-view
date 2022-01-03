@@ -13,7 +13,7 @@
     "android",
     "ios",
     "cpp",
-    "react-native-pager-view.podspec",
+    "react-native-pager-view-custom.podspec",
     "!lib/typescript/example",
     "!android/build",
     "!ios/build",
