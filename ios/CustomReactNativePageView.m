@@ -1,13 +1,13 @@
-#import "ReactNativePageView.h"
+#import "CustomReactNativePageView.h"
 #import "React/RCTLog.h"
 #import <React/RCTViewManager.h>
 
-#import "UIViewController+CreateExtension.h"
-#import "RCTOnPageScrollEvent.h"
-#import "RCTOnPageScrollStateChanged.h"
-#import "RCTOnPageSelected.h"
+#import "CustomUIViewController+CreateExtension.h"
+#import "CustomOnPageScrollEvent.h"
+#import "CustomOnPageScrollStateChanged.h"
+#import "CustomOnPageSelected.h"
 
-@interface ReactNativePageView () <UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
+@interface CustomReactNativePageView () <UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 @property(nonatomic, strong) NSMapTable<UIView *, UIViewController *> *controllerCache;
 @property NSInteger currentPage;
@@ -24,7 +24,7 @@
 
 @end
 
-@implementation ReactNativePageView
+@implementation CustomReactNativePageView
 
 - (instancetype)init {
 	if (self = [super init]) {
@@ -220,7 +220,7 @@
 	_reactPageIndicatorView.numberOfPages = _count;
 	_reactPageIndicatorView.currentPage = index;
 
-	__weak ReactNativePageView *weakSelf = self;
+	__weak CustomReactNativePageView *weakSelf = self;
 	[_reactPageViewController setViewControllers:@[controller]
 										   direction:index < _currentPage ? UIPageViewControllerNavigationDirectionReverse : UIPageViewControllerNavigationDirectionForward
 											animated:animated

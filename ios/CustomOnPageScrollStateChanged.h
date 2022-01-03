@@ -3,11 +3,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RCTOnPageScrollEvent : NSObject <RCTEvent>
+@interface CustomOnPageScrollStateChanged : NSObject <RCTEvent>
 
 - (instancetype) initWithReactTag:(NSNumber *)reactTag
-                         position:(NSNumber *)position
-                           offset:(NSNumber *)offset;
+                            state:(NSString *)state
+                    coalescingKey:(uint16_t)coalescingKey;
 
 @end
 

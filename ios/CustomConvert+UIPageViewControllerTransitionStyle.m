@@ -1,5 +1,5 @@
 
-#import "RCTConvert+UIPageViewControllerTransitionStyle.h"
+#import "CustomConvert+UIPageViewControllerTransitionStyle.h"
 
 @implementation RCTConvert (UIPageViewControllerTransitionStyle)
 

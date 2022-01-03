@@ -1,27 +1,27 @@
 #import <React/UIView+React.h>
-#import "RCTOnPageSelected.h"
+#import "CustomOnPageScrollStateChanged.h"
 
-@implementation RCTOnPageSelected
+@implementation CustomOnPageScrollStateChanged
 {
-    NSNumber* _position;
+    NSString* _state;
     uint16_t _coalescingKey;
 }
 
 @synthesize viewTag = _viewTag;
 
 - (NSString *)eventName {
-    return @"onPageSelected";
+    return @"onPageScrollStateChanged";
 }
 
 - (instancetype) initWithReactTag:(NSNumber *)reactTag
-                         position:(NSNumber *)position
+                            state:(NSString *)state
                     coalescingKey:(uint16_t)coalescingKey;
 {
     RCTAssertParam(reactTag);
     
     if ((self = [super init])) {
         _viewTag = reactTag;
-        _position = position;
+        _state = state;
         _coalescingKey = coalescingKey;
     }
     return self;
@@ -47,7 +47,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)init)
 - (NSArray *)arguments
 {
     return @[self.viewTag, RCTNormalizeInputEventName(self.eventName), @{
-                 @"position": _position,
+                 @"pageScrollState": _state,
                  }];
 }
 
@@ -57,4 +57,3 @@ RCT_NOT_IMPLEMENTED(- (instancetype)init)
 }
 
 @end
-

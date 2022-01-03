@@ -1,5 +1,5 @@
 
-#import "RCTConvert+UIPageViewControllerNavigationOrientation.h"
+#import "CustomConvert+UIPageViewControllerNavigationOrientation.h"
 
 @implementation RCTConvert (UIPageViewControllerNavigationOrientation)
 

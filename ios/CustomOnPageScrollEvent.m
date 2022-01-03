@@ -1,7 +1,7 @@
 #import <React/UIView+React.h>
-#import "RCTOnPageScrollEvent.h"
+#import "CustomOnPageScrollEvent.h"
 
-@implementation RCTOnPageScrollEvent
+@implementation CustomOnPageScrollEvent
 {
     NSNumber* _position;
     NSNumber* _offset;
